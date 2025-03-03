@@ -1,0 +1,7 @@
+print ("Ingrese dos numeros para realizar una suma")
+numero1=int(input())
+numero2=int(input())
+print ("el resultado de la suma es", numero1+numero2)
+print("El resultado de la multiplicación es", numero1*numero2)
+print("El resultado de la divison es", numero1/numero2)
+print("El resultado de la resta es",numero1-numero2)

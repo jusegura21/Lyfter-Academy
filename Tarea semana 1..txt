@@ -1,0 +1,68 @@
+VerYouTube 1.0
+
+1.Tome su computadora. 
+	a.Dirijase al cuarto donde tiene su computadora. 
+	b.Abra la puerta. 
+	c.Tome su computadora. 
+	d.Ubiquese en un lugar cómodo. 
+2.Encienda su computadora.
+	a.Conecte la fuente de alimentacion a su computadora. 
+	b.Presione el botón de encendido de su computadora. 
+	c.Inicie session con su usuario en su computadora. 
+3.Conecte su computadora a Internet. 
+	a.Dirijase a la esquina inferior derecha de su ventana y seleccione la configuración de red. 
+	b.Seleccione la red que desea utilizar. 
+	c.Ingrese la contraseña para establecer la conexion. 
+4.Acceda a Youtube.
+	a.Ingrese a www.youtube.com
+	b.Busque los videos de su interes en la barra de busqueda de la pagina web. 
+	c.Seleccione el video que quiera ver y reproduzcalo. 
+
+Rutina Diaria (Lunes a viernes) 1.0 
+1. Rutina en la mañana. 
+	a.Si se levanta antes que suene la alarma.
+		i.Desactive la alarma. 
+	b.Sino, apague la alarma. 
+	C. Si huele mal
+		i.Tome un baño
+	d.Dirijase al lavabo y tome el cepillo de dientes. 
+	e.Coloque paste de dientes en el cepillo. 
+	f.Mientras tenga los dientes sucios:
+		i.Cepillese los dientes. 
+	d.Dirijase a su closet. 
+	e.Seleccione la ropa que desea utilizar
+	f.Si la ropa esta arrugada
+		i.Mientras la ropa este arrugada
+			a.Planche la ropa.
+	g.Pongase la ropa. 
+	h.Aplique su colonia favorita. 
+	i.Si su carro tiene gasolina y el marchamo al dia y aire en las llantes
+		i.Viaje a su trabajo en carro.
+	j.Sino, pida un uber hacia su trabajo. 
+	k.Si su jefe no esta
+		i.Desayune en calma mientras ve Instagram. 
+	l.Sino
+		i.Mientras no sean las 5pm
+			a.Trabaje
+	m.Salga del trabajo. 
+	n.Sino ha entrenado mas de 5 veces en la mañana
+		i.Dirijase al gimnasio a entrenar. 
+	ñ.Dirijase  a su casa y tome un baño. 
+	o.Si no hay cena lista
+		i.Descongele la comida
+		ii.prepare la comida.
+	p.Tome su dispositivo movil y acceda a su serie favorita.
+	q.Cene mientras ve la serie.
+	r.Si es lunes, miercoles o viernes
+		Estudie 1 hora. 
+	s.Dirijase al lavabo y tome el cepillo de dientes
+	t.Mientras tenga los dientes sucios:
+		i.Cepillese los dientes. 
+	u.Pongase la pijama. 
+	v.Vayase a dormir. 
+ 
+	
+
+	
+	
+			 
