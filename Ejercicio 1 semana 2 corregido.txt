@@ -1,0 +1,16 @@
+Ejercicio 1
+1.	Inicio
+2.	Definir precio
+3.	Definir descuento
+4.	Definir precio_con_descuento
+5.	Mostrar “Ingrese el precio de producto”
+6.	Pedir precio
+7.	Si (precio<100)
+		descuento= precio * 0.02
+		precio_con_descuento= precio - descuento
+8.	Sino
+9.		descuento = precio * 0.1
+10.		precio_con_descuento = precio - descuento
+10.	Finsi
+11.	Mostrar “El precio con descuento es de”
+12.	Mostrar precio_con_descuento 
