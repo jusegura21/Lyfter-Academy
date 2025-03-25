@@ -3,7 +3,6 @@ import data
 import actions
 
 
-
 student_dictionaries_list=[]
 student_dictionary={}
 student_keys=['name','class','spanish_score','english_score','history_score','science_score','average_score']
@@ -19,10 +18,10 @@ while True:
         actions.print_all(student_dictionaries_list,student_keys)
         input("Done. Press Enter to Continue")
     if option==3:
-        data.show_top_3('students.csv','average_score')
+        data.show_top_3(student_dictionaries_list)
         input("Done. Press Enter to Continue")
     if option==4:
-        data.show_all_avg_score('students.csv','average_score')
+        print(f'Class Average Score: {actions.class_avg_score(student_dictionaries_list)}')
         input("Done. Press Enter to Continue")
     if option==5:
         data.export_file('students.csv',student_dictionaries_list,student_keys)
@@ -33,10 +32,3 @@ while True:
     elif option==7:
         break
 print("Program closed.")
-
-
-
-
-
-
-
