@@ -1,5 +1,7 @@
-name,class,spanish_score,english_score,history_score,science_score,average_score
-dirk,info,90.0,7.0,89.0,34.0,55.0
-sadikisha,12-1,56.0,34.0,65.0,76.0,57.75
-Arnold,11A,96.0,65.0,76.0,45.0,70.5
-Thommy Lee,Ing Civil,85.0,84.0,84.0,83.0,84.0
+name,classroom,spanish_score,english_score,history_score,science_score,average_score
+Julian,11A,100.0,100.0,100.0,100.0,100.0
+Dirk,11A,90.0,90.0,90.0,90.0,90.0
+Arnold,11A,45.0,54.0,45.0,45.0,47.25
+Jeni,11A,80.0,80.0,80.0,80.0,80.0
+Sadikisha,11A,89.0,86.0,87.0,85.0,86.75
+,11A,56.0,56.0,56.0,56.0,56.0
