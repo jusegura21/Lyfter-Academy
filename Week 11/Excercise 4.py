@@ -52,6 +52,6 @@ left_leg=Leg(left_feet)
 eyes=Eyes()
 mouth=Mouth()
 nose=Nose()
-head=(eyes,mouth,nose)
+head=Head(eyes,mouth,nose)
 
 torso = Torso(head, right_arm, left_arm, right_leg, left_leg)
