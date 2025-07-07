@@ -1,0 +1,4 @@
+ Type ,Category,Description,Amount
+Expense,1,beer,-500.0
+Income,1,Business,3000.0
+Expense,Car,Brakes,-500.0
