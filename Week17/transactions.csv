@@ -1,3 +1,6 @@
  Type ,Category,Description,Amount
 Expense,Entertainment,Beers,-500.0
 Income,Business,T-shirts,500.0
+Expense,Car,car,-5000.0
+Expense,Nightclub,tips,-10350.0
+Income,Car,business,7000.0

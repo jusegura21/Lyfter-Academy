@@ -1,6 +1,7 @@
 import csv
 import PySimpleGUI as sg
 import os
+from constants import TEXT_ADD_AMOUNT,TEXT_ADD_CATEGORY_PROMPT, TEXT_CHOOSE_CATEGORY, TEXT_CATEGORY_WARNING,POPUP_ERROR_EMPTY_DESC,POPUP_ERROR_INVALID_AMOUNT,POPUP_ERROR_AMOUNT_TOO_LOW,TEXT_ADD_DESCRIPTION
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 class Categories():
@@ -17,12 +18,12 @@ class Categories():
         return False
 
     def add_category(self):
-        new_category = sg.popup_get_text('Add the category name')
+        new_category = sg.popup_get_text(TEXT_ADD_CATEGORY_PROMPT)
         return self.try_add_category(new_category)
 
     def choose_category(self):
         layout = [
-            [sg.Text('Choose category:')],
+            [sg.Text(TEXT_CHOOSE_CATEGORY)],
             [sg.Combo(self.categories, key='-CATEGORIA-',  readonly=True)],
             [sg.Button('OK'), sg.Button('Cancel')]
         ]
@@ -35,7 +36,7 @@ class Categories():
             if event == 'OK':
                 selected=values['-CATEGORIA-']
                 if not selected:
-                    sg.popup_error('Warning: Category Selection is recommended but you can continue')
+                    sg.popup_error(TEXT_CATEGORY_WARNING)
                     win.close()
                     return None
                     #raise ValueError('Category selection is required')
@@ -65,28 +66,25 @@ class Transactions():
 
     def set_transaction_data(self,description,amount_text): 
             if not description or not description.strip():
-                raise ValueError('Description cannot be empty')
+                raise ValueError(POPUP_ERROR_EMPTY_DESC)
             try:
                 amount=float(amount_text)
             except ValueError:
-                raise ValueError('Invalid amount format')
+                raise ValueError(POPUP_ERROR_INVALID_AMOUNT)
             
             if amount <=0:
-                    raise ValueError('Amount must be greater than 0')
+                    raise ValueError(POPUP_ERROR_AMOUNT_TOO_LOW)
             
             return description.strip(),amount       
         
     def create_transaction(self,category):
-        desc=sg.popup_get_text('Add Income Description')
-        amount_text=sg.popup_get_text('Add Amount')
+        desc=sg.popup_get_text(TEXT_ADD_DESCRIPTION)
+        amount_text=sg.popup_get_text(TEXT_ADD_AMOUNT)
 
         desc_clean, amount = self.set_transaction_data(desc,amount_text)
         self.description=desc_clean
         self.category=category
         self.amount= -amount if self.type=='Expense' else amount
-       
-
-
 
     def transaction_to_list(self):
         transaction_list=[]
@@ -95,31 +93,3 @@ class Transactions():
         transaction_list.append(self.description)
         transaction_list.append(self.amount)
         return transaction_list
-
-class Persistency():
-    def __init__(self,path,data,headers):
-        self.path=path
-        self.data=data
-        self.headers=headers
-
-    def write_csv_file(self):
-        with open(self.path,'w',newline='',encoding='utf-8') as file:
-            writer=csv.writer(file)
-            writer.writerow(self.headers)
-            writer.writerows(self.data)
-    
-    def read_csv_file(self):
-        if not os.path.isfile(self.path):
-            with open(self.path, 'w', newline='', encoding='utf-8') as file:
-                writer = csv.DictWriter(file, fieldnames=self.headers)
-                writer.writeheader()
-
-        with open (self.path,newline='',encoding='utf-8') as file:
-            if file.readable() and os.path.getsize(self.path)>0:
-                file.seek(0)       
-                reader = csv.DictReader(file)
-                for line in reader:
-                    try:
-                        self.data.append([line[self.headers[0]],line[self.headers[1]],line[self.headers[2]],float(line[self.headers[3]])])
-                    except KeyError:
-                        pass

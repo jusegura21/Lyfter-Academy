@@ -1,6 +1,6 @@
 import pytest
-from OOP import Categories
-from OOP import Transactions
+from Week17.models import Categories
+from Week17.models import Transactions
 
 def test_try_add_category_success():
     c=Categories('dummy.txt',[])
