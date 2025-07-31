@@ -6,7 +6,7 @@ TEXT_ADD_CATEGORY_PROMPT = "Add the category name"
 TEXT_CHOOSE_CATEGORY = "Choose category:"
 TEXT_ADD_DESCRIPTION = "Add Description"
 TEXT_ADD_AMOUNT = "Add Amount"
-TEXT_CATEGORY_WARNING = "Warning: Category Selection is recommended but you can continue"
+TEXT_CATEGORY_WARNING = "Warning: Category Selection is needed. Transaction canceled"
 
 # --- Popup Messages ---
 POPUP_ERROR_EMPTY_DESC = "Description cannot be empty"

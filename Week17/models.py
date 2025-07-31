@@ -21,27 +21,6 @@ class Categories():
         new_category = sg.popup_get_text(TEXT_ADD_CATEGORY_PROMPT)
         return self.try_add_category(new_category)
 
-    def choose_category(self):
-        layout = [
-            [sg.Text(TEXT_CHOOSE_CATEGORY)],
-            [sg.Combo(self.categories, key='-CATEGORIA-',  readonly=True)],
-            [sg.Button('OK'), sg.Button('Cancel')]
-        ]
-        win = sg.Window("Category", layout, modal=True)
-        while True:
-            event, values = win.read()
-            if event in (sg.WIN_CLOSED, 'Cancel'):
-                win.close()
-                return None
-            if event == 'OK':
-                selected=values['-CATEGORIA-']
-                if not selected:
-                    sg.popup_error(TEXT_CATEGORY_WARNING)
-                    win.close()
-                    return None
-                    #raise ValueError('Category selection is required')
-                win.close()
-                return selected
             
     def write_category_list(self): #function that writes the list into a file
         with open(self.path,'w',encoding='utf-8') as file:
@@ -77,10 +56,7 @@ class Transactions():
             
             return description.strip(),amount       
         
-    def create_transaction(self,category):
-        desc=sg.popup_get_text(TEXT_ADD_DESCRIPTION)
-        amount_text=sg.popup_get_text(TEXT_ADD_AMOUNT)
-
+    def create_transaction(self,category,desc,amount_text):
         desc_clean, amount = self.set_transaction_data(desc,amount_text)
         self.description=desc_clean
         self.category=category
