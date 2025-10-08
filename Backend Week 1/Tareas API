@@ -42,7 +42,46 @@ def save_task_list(file_path,data):
         print(f"Error saving data:{ex}")
         return False
 
-def register_new_task():
+        
+@app.route("/tasks/<task_id>", methods=["PATCH"])
+def edit_tasks(task_id):
+    tasks_list=load_task_list(DATA_FILE)
+    try:
+        title_filter=request.json.get("title")
+        description_filter=request.json.get("description")
+        status_filter=request.json.get("status")
+        if status_filter and status_filter not in ALLOWED_STATUS:
+            return jsonify(message=f"status not allowed. Status must be {ALLOWED_STATUS}"),400
+        for task in tasks_list:
+            if task["id"]==task_id:
+                task["status"]=status_filter or task["status"]
+                task["title"] = title_filter or task["title"]
+                task["description"] = description_filter or task["description"]
+                save_task_list(DATA_FILE,tasks_list)
+                return jsonify(message="Task updated successfully", data=task), 200
+        return jsonify(message="Task not found"), 404
+    except Exception as ex:
+        print(f"Error:{ex}")
+        return jsonify(message="Internal Server Error"), 500          
+    
+@app.route("/tasks",methods=["GET"])   
+def show_tasks():
+    tasks_list=load_task_list(DATA_FILE)
+    try:
+        filtered_tasks=tasks_list
+        status_filter=request.args.get("status")
+        if status_filter:
+            filtered_tasks=list(
+                filter(lambda show: show["status"]==status_filter,filtered_tasks)
+                )
+        return jsonify(data=filtered_tasks),200
+    except Exception as ex:
+        print(f"Error:{ex}")    
+        return jsonify(message="Internal server error"), 500
+    
+        
+@app.route("/tasks", methods=["POST"])
+def add_tasks():
     tasks_list=load_task_list(DATA_FILE)
     try:
         if "id" not in request.json:
@@ -68,69 +107,28 @@ def register_new_task():
         }
         )
         save_task_list(DATA_FILE,tasks_list)
+        return jsonify(message="Task created successfully", data=tasks_list), 
 
-        return jsonify(message="Task created successfully", data=tasks_list), 201
     except ValueError as ex:
-        return jsonify(message=str(ex)),400
+        print(f"Error:{ex}")
+        return jsonify(message="Bad request error"),400
     except Exception as ex:
-        return jsonify(message=str(ex)), 500
+        print(f"Error:{ex}")
+        return jsonify(message="Internal server error"), 500
 
-def delete_task(id):
+    
+@app.route("/tasks/<task_id>", methods=["DELETE"])
+def remove_tasks(task_id):
     tasks_list=load_task_list(DATA_FILE)
     try:
         for t in tasks_list:
-            if t["id"] == id :
+            if t["id"] == task_id :
                 tasks_list.remove(t)
                 save_task_list(DATA_FILE,tasks_list)
                 return jsonify(message="Task deleted successfully"), 200
         return jsonify(message="Task not found"), 404   
     except Exception as ex:
         return jsonify(message=str(ex)), 500
-
-        
-@app.route("/tasks/edit/<task_id>", methods=["PATCH"])
-def edit_tasks(task_id):
-    tasks_list=load_task_list(DATA_FILE)
-    try:
-        title_filter=request.json.get("title")
-        description_filter=request.json.get("description")
-        status_filter=request.json.get("status")
-        if status_filter and status_filter not in ALLOWED_STATUS:
-            return jsonify(message=f"status not allowed. Status must be {ALLOWED_STATUS}"),400
-        for task in tasks_list:
-            if task["id"]==task_id:
-                task["status"]=status_filter or task["status"]
-                task["title"] = title_filter or task["title"]
-                task["description"] = description_filter or task["description"]
-                save_task_list(DATA_FILE,tasks_list)
-                return jsonify(message="Task updated successfully", data=task), 200
-        return jsonify(message="Task not found"), 404
-    except Exception as ex:
-        return jsonify(message=str(ex)), 500          
-    
-@app.route("/tasks/list",methods=["GET"])   
-def show_tasks():
-    tasks_list=load_task_list(DATA_FILE)
-    try:
-        filtered_tasks=tasks_list
-        status_filter=request.args.get("status")
-        if status_filter:
-            filtered_tasks=list(
-                filter(lambda show: show["status"]==status_filter,filtered_tasks)
-                )
-        return jsonify(data=filtered_tasks),200
-    except Exception as ex:
-        return jsonify(message=str(ex)), 500
-    
-        
-@app.route("/tasks", methods=["POST"])
-def add_tasks():
-        return register_new_task()
-
-    
-@app.route("/tasks/delete/<id>", methods=["DELETE"])
-def remove_tasks(id):
-        return delete_task(id)
     
     
 if __name__ == "__main__":
