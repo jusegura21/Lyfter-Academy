@@ -1,46 +1,52 @@
 -- SQLite
---Para usar un autonincrement en SQLite, se debe especificar el primary ID como INTEGER y no solo INT. 
+--Para usar un autonincrement en SQLite, se debe especificar el primary ID como INTEGER y no solo INTEGER. 
+DROP TABLE invoice_details;
+DROP TABLE invoices;
+DROP TABLE products;
+DROP TABLE shopping_cart;
+DROP TABLE users;
 
 
-/*CREATE TABLE products (
+CREATE TABLE products (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
-	code VARCHAR(25) NOT NULL,
-    name VARCHAR(25) NOT NULL,
-	price INT DEFAULT 0,
-	brand VARCHAR(50) DEFAULT 0
---)*/
+	code TEXT UNIQUE NOT NULL,
+    name TEXT NOT NULL,
+	price INTEGER DEFAULT 0,
+	brand TEXT DEFAULT 0
+);
 
-/*CREATE TABLE users (
-	id INT PRIMARY KEY,
-	user VARCHAR(50) NOT NULL
-);*/
+CREATE TABLE users (
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	email TEXT NOT NULL
+);
 
-/*-- SQLite
+
 CREATE TABLE invoices(
-	id INT PRIMARY KEY,
-	invoice_number INT(25) NOT NULL,
-    date TEXT NOT NULL,
-	amount INT DEFAULT 0,
-	user_id INT REFERENCES users(id)
-);*/
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	invoice_number TEXT UNIQUE NOT NULL,
+    date TEXT NOT NULL CHECK (date GLOB '[0-9][0-9][0-9][0-9]-[0-1][0-9]-[0-3][0-9]'),
+	amount INTEGER DEFAULT 0,
+	user_id INTEGER REFERENCES users(id)
+);
 
-/*
+
 CREATE TABLE shopping_cart(
-	id INT PRIMARY KEY,
-	product_id INT REFERENCES products(id),
-    qty SMALLINT NOT NULL,
-	user_id INT REFERENCES users(id)
-);*/
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	product_id INTEGER REFERENCES products(id),
+    qty INTEGER NOT NULL,
+	user_id INTEGER REFERENCES users(id)
+);
 
-/*CREATE TABLE invoice_details(
-	id INT PRIMARY KEY,
-	invoice_id INT REFERENCES invoices(id),
-    product_id INT REFERENCES products(id),
-	qty SMALLINT NOT NULL,
-    total_amount INT NOT NULL
-);*/
+CREATE TABLE invoice_details(
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
+	invoice_id INTEGER REFERENCES invoices(id),
+    product_id INTEGER REFERENCES products(id),
+	qty INTEGER NOT NULL,
+    total_amount INTEGER NOT NULL DEFAULT 0
+);
 
-/*INSERT INTO products (code, name, price, brand)
+PRAGMA foreign_keys = ON;
+INSERT INTO products (code, name, price, brand)
 VALUES
 ('PRD-001', 'Wireless Mouse', 12500, 'Logitech'),
 ('PRD-002', 'Mechanical Keyboard', 58900, 'Redragon'),
@@ -51,27 +57,32 @@ VALUES
 ('PRD-007', 'Gaming Headset', 49900, 'HyperX'),
 ('PRD-008', 'Webcam 1080p', 39900, 'Logitech'),
 ('PRD-009', 'Smartwatch', 92500, 'Amazfit'),
-('PRD-010', 'Wireless Earbuds', 37500, 'Sony');*/
+('PRD-010', 'Wireless Earbuds', 37500, 'Sony');
 
-/*INSERT INTO users (id, user)
+INSERT INTO users (id, email)
 VALUES (1,'user1@yahoo.com'),
 (2,'user2@yahoo.com'),
 (3,'user3@yahoo.com'),
 (4,'user4@yahoo.com'),
-(5,'user5@yahoo.com');*/
+(5,'user5@yahoo.com');
 
-/**/
 
-/*INSERT INTO invoices (id, invoice_number, date, amount, user_id)
+ALTER TABLE invoices
+    ADD COLUMN phone_number TEXT NULL;
+
+ALTER TABLE invoices    
+    ADD COLUMN cashier_id INTEGER NULL;
+
+INSERT INTO invoices (id, invoice_number, date, amount, user_id, phone_number, cashier_id)
 VALUES
-(1, 1001, '2025-10-01', 76700, 2),
-(2, 1002, '2025-10-02', 201500, 1),
-(3, 1003, '2025-10-03', 89800, 3),
-(4, 1004, '2025-10-04', 337500, 4),
-(5, 1005, '2025-10-05', 70400, 5);*/
+(1, 1001, '2025-10-01', 76700, 2,'+50688880001', 101),
+(2, 1002, '2025-10-02', 201500, 1, '+50688880002', 102),
+(3, 1003, '2025-10-03', 89800, 3, '+50688880003', 103),
+(4, 1004, '2025-10-04', 337500, 4, '+50688880004', 104),
+(5, 1005, '2025-10-05', 70400, 5, '+50688880005', 105);
 
 --Aquí desglosamos qué productos se vendieron en cada invoice, con cantidad (qty) y total (total_amount = price * qty)
-/*INSERT INTO invoice_details (id, invoice_id, product_id, qty, total_amount)
+INSERT INTO invoice_details (id, invoice_id, product_id, qty, total_amount)
 VALUES
 (1,  1, 2, 1, 58900),   -- Mechanical Keyboard para user2
 (2, 2, 1, 1, 12500),   -- Wireless Mouse para user1
@@ -117,3 +128,8 @@ SELECT *
 SELECT * 
     FROM invoices
     WHERE invoice_number=1004;
+    
+
+
+
+    
