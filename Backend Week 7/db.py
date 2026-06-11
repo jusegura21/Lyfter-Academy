@@ -121,16 +121,23 @@ class DB_Manager:
     def purchase_product(self,product_table,invoice_table,product_id,user_id,qty):
         row=self.get_product_by_id(product_table,product_id)
         if row:
-            price=row.price*qty
-            stmt=(
-                insert(invoice_table)
-                .values(user_id=user_id, product_id=product_id, qty=qty,total=price,purchase_date=date.today())
-            )
-            with self.engine.begin() as conn:
-                result=conn.execute(stmt)
-                return result.inserted_primary_key[0]
-        else:
-            return None
+            if row.qty>=qty:
+                price=row.price*qty
+                new_qty=row.qty-qty
+                stmt=(
+                    insert(invoice_table)
+                    .values(user_id=user_id, product_id=product_id, qty=qty,total=price,purchase_date=date.today())
+                )
+                stmt2=(update(products_table)
+                .where(products_table.c.id==product_id).values(qty=new_qty))
+                with self.engine.begin() as conn:
+                    result=conn.execute(stmt)
+                    conn.execute(stmt2)
+                    return result.inserted_primary_key[0]
+            else:
+                return "no_stock"
+        else:   
+            return "not_found"
         
     def get_invoices(self,invoice_table,user_id):
         query=select(invoice_table).where(invoice_table.c.user_id==user_id)

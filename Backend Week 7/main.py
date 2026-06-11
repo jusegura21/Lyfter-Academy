@@ -37,6 +37,8 @@ def require_role(*roles):
                 return Response(status=401)
             token=auth.split(" ")[1]
             payload = jwt_manager.decode(token)
+            if not payload:
+                return Response(status=401)
             if payload.get('role') not in roles:
                 return Response(status=403)  
             return f(*args, **kwargs)
@@ -92,7 +94,7 @@ def me():
     
     
 @app.route('/products', methods=["GET"])
-@require_role('admin')
+@require_role('admin','user')
 def get_products():
     data=get_product_data()
     result = db_manager.get_product(products_table, data.get("name"), data.get("price"), data.get("entry_date"), data.get("qty"))
@@ -137,13 +139,19 @@ def products():
 @app.route('/purchase', methods=["POST"])
 @require_role('admin','user')
 def purchase_product():
+    require_fields={'product_id','qty'}
     user_id=get_user_id_from_token()
     invoice_data=get_invoice_data()
+    if not require_fields.issubset(invoice_data.keys()):
+        return Response(status=400)            
     result=db_manager.purchase_product(products_table,invoice_table,invoice_data["product_id"],user_id,invoice_data["qty"])
-    if result:
-        return Response(status=201)
+    if result=="not_found":
+        return jsonify(error=result), 404 
+    elif result=="no_stock":
+        return jsonify(error=result),400
     else:
-        return Response (status=404)
+        return jsonify(id=result),201
+
     
 @app.route('/myinvoices',methods=["GET"])
 @require_role('admin','user')
